@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
-import { Award, GraduationCap, Briefcase, Heart, Users, Target, CheckCircle, Activity } from 'lucide-react';
+import { Award, GraduationCap, Briefcase, Heart, Users, Target, CheckCircle, Activity, Stethoscope, Medal, TrendingUp, Scale } from 'lucide-react';
 
 export default function AboutPage() {
   const { language } = useLanguage();
@@ -15,70 +15,95 @@ export default function AboutPage() {
   const qualifications = [
     {
       icon: GraduationCap,
-      title: language === 'ar' ? 'دكتوراه في التغذية العلاجية' : 'PhD in Clinical Nutrition',
-      institution: language === 'ar' ? 'جامعة القاهرة، مصر' : 'Cairo University, Egypt',
-      year: '2014',
+      title: language === 'ar' ? 'ماجستير تغذية صحية' : 'Master\'s in Healthy Nutrition',
+      institution: language === 'ar' ? 'جامعة القاهرة' : 'Cairo University',
     },
     {
       icon: GraduationCap,
-      title: language === 'ar' ? 'ماجستير في علوم التغذية' : 'Master\'s in Nutritional Sciences',
-      institution: language === 'ar' ? 'الجامعة الأمريكية بالقاهرة' : 'American University in Cairo',
-      year: '2011',
+      title: language === 'ar' ? 'دبلومة تغذية صحية' : 'Diploma in Healthy Nutrition',
+      institution: language === 'ar' ? 'نقابة الزراعيين' : 'Agricultural Syndicate',
     },
     {
       icon: Award,
-      title: language === 'ar' ? 'بكالوريوس علوم الأغذية والتغذية' : 'Bachelor\'s in Food Science & Nutrition',
-      institution: language === 'ar' ? 'جامعة عين شمس، مصر' : 'Ain Shams University, Egypt',
-      year: '2008',
+      title: language === 'ar' ? 'كلية زراعة - علوم وتكنولوجيا الأغذية والتغذية' : 'Bachelor in Food Science & Technology',
+      institution: language === 'ar' ? 'جامعة عين شمس' : 'Ain Shams University',
     },
   ];
 
   const certifications = [
-    language === 'ar' ? 'أخصائية تغذية معتمدة من المجلس الأمريكي' : 'Board Certified Nutrition Specialist (USA)',
-    language === 'ar' ? 'عضو الجمعية الدولية للتغذية' : 'Member of International Nutrition Society',
-    language === 'ar' ? 'شهادة في التغذية الرياضية' : 'Certified Sports Nutritionist',
-    language === 'ar' ? 'شهادة في تغذية الأطفال' : 'Pediatric Nutrition Specialist',
-    language === 'ar' ? 'مدرب صحة معتمد' : 'Certified Health Coach',
-    language === 'ar' ? 'شهادة في إدارة السمنة' : 'Obesity Management Specialist',
+    language === 'ar' ? 'دورة إدارة المستشفيات' : 'Hospital Management Course',
+    language === 'ar' ? 'دورة تنمية القدرات والمهارات الحياتية' : 'Life Skills & Capabilities Development Course',
+    language === 'ar' ? 'شهادة من معهد إعداد القادة بحلوان بالإشراف على التغذية' : 'Leadership Institute Certificate in Nutrition Supervision - Helwan',
+    language === 'ar' ? 'شهادة من مستشفى صبيا العام عن مسؤولية الأخطاء الطبية' : 'Medical Errors Responsibility Certificate - Sabya General Hospital',
   ];
 
-  const specializations = [
+  const expertise = [
     {
-      icon: Heart,
-      title: language === 'ar' ? 'إدارة الوزن' : 'Weight Management',
+      icon: TrendingUp,
+      title: language === 'ar' ? 'تغذية رياضية' : 'Sports Nutrition',
       description: language === 'ar' 
-        ? 'خبرة واسعة في مساعدة المرضى على تحقيق أهدافهم في الوزن من خلال خطط تغذية مستدامة وفعالة'
-        : 'Extensive experience helping patients achieve their weight goals through sustainable and effective nutrition plans',
-    },
-    {
-      icon: Activity,
-      title: language === 'ar' ? 'الأمراض المزمنة' : 'Chronic Disease Management',
-      description: language === 'ar'
-        ? 'متخصصة في إدارة مرض السكري، ارتفاع ضغط الدم، أمراض القلب، والحالات الصحية المزمنة الأخرى'
-        : 'Specialized in managing diabetes, hypertension, heart disease, and other chronic health conditions',
+        ? 'برامج تغذية متخصصة للرياضيين لتحسين الأداء والوصول للأهداف الرياضية'
+        : 'Specialized nutrition programs for athletes to improve performance and achieve sports goals',
     },
     {
       icon: Users,
-      title: language === 'ar' ? 'التغذية العائلية' : 'Family Nutrition',
+      title: language === 'ar' ? 'تغذية الطفل والطفل الرياضي والمسنين' : 'Child, Young Athlete & Elderly Nutrition',
       description: language === 'ar'
-        ? 'مساعدة العائلات على تبني عادات غذائية صحية وتحسين نمط حياتهم الغذائي'
-        : 'Helping families adopt healthy eating habits and improve their nutritional lifestyle',
+        ? 'برامج تغذية مخصصة لمراحل النمو المختلفة واحتياجات المسنين الخاصة'
+        : 'Customized nutrition programs for different growth stages and special elderly needs',
     },
     {
-      icon: Target,
-      title: language === 'ar' ? 'التغذية التخصصية' : 'Specialized Nutrition',
+      icon: Scale,
+      title: language === 'ar' ? 'متابعة حالات السمنة وما بعد جراحات السمنة' : 'Obesity & Post-Bariatric Surgery Follow-up',
       description: language === 'ar'
-        ? 'خطط تغذية مخصصة للرياضيين، النساء الحوامل، والأطفال، وحالات الحساسية الغذائية'
-        : 'Customized nutrition plans for athletes, pregnant women, children, and food allergy cases',
+        ? 'متابعة شاملة لحالات السمنة والرعاية الخاصة بعد جراحات السمنة'
+        : 'Comprehensive obesity follow-up and special care after bariatric surgery',
+    },
+    {
+      icon: Stethoscope,
+      title: language === 'ar' ? 'عيادة تغذية علاجية خبرة عملية' : 'Clinical Nutrition Practice',
+      description: language === 'ar'
+        ? 'خبرة عملية في عيادات التغذية العلاجية والتعامل مع الحالات المختلفة'
+        : 'Practical experience in clinical nutrition clinics and handling various cases',
+    },
+    {
+      icon: Activity,
+      title: language === 'ar' ? 'تغذية علاجية للأمراض المزمنة' : 'Therapeutic Nutrition for Chronic Diseases',
+      description: language === 'ar'
+        ? 'برامج تغذية علاجية متخصصة لمرضى السكر والكبد والأمراض المزمنة'
+        : 'Specialized therapeutic nutrition programs for diabetes, liver disease and chronic conditions',
+    },
+    {
+      icon: Heart,
+      title: language === 'ar' ? 'متابعة أونلاين لحالات السمنة ومرضى السكر والضغط' : 'Online Follow-up for Obesity, Diabetes & Hypertension',
+      description: language === 'ar'
+        ? 'خدمة متابعة عن بعد لمرضى السمنة والسكري وارتفاع ضغط الدم'
+        : 'Remote follow-up service for obesity, diabetes and hypertension patients',
+    },
+    {
+      icon: Medal,
+      title: language === 'ar' ? 'العمل على أجهزة التخسيس وتقنية الميزوثيرابي' : 'Weight Loss Devices & Mesotherapy',
+      description: language === 'ar'
+        ? 'استخدام أحدث تقنيات التخسيس وتقنية الميزوثيرابي للحصول على أفضل النتائج'
+        : 'Using latest weight loss technologies and mesotherapy techniques for best results',
     },
   ];
 
+  const services = [
+    language === 'ar' ? 'خدمة السمنة' : 'Obesity Service',
+    language === 'ar' ? 'التغذية العلاجية' : 'Therapeutic Nutrition',
+    language === 'ar' ? 'تغذية الأطفال' : 'Pediatric Nutrition',
+    language === 'ar' ? 'التغذية الرياضية' : 'Sports Nutrition',
+    language === 'ar' ? 'المتابعة أونلاين' : 'Online Follow-up',
+    language === 'ar' ? 'حساب السعرات وتحديد الهدف' : 'Calorie Calculation & Goal Setting',
+  ];
+
   const philosophyPoints = [
-    language === 'ar' ? 'نهج شامل يركز على الفرد ككل وليس فقط النظام الغذائي' : 'Holistic approach focusing on the individual as a whole, not just the diet',
-    language === 'ar' ? 'خطط تغذية مبنية على الأدلة العلمية والأبحاث الحديثة' : 'Evidence-based nutrition plans backed by current research',
-    language === 'ar' ? 'استراتيجيات مستدامة طويلة الأمد وليست حلولاً مؤقتة' : 'Sustainable long-term strategies, not temporary solutions',
-    language === 'ar' ? 'متابعة مستمرة ودعم شامل لتحقيق النجاح' : 'Continuous follow-up and comprehensive support for success',
-    language === 'ar' ? 'تعليم المرضى وتمكينهم لاتخاذ قرارات صحية مستنيرة' : 'Patient education and empowerment for informed health decisions',
+    language === 'ar' ? 'نهج شامل يركز على صحة الفرد بشكل كامل' : 'Holistic approach focusing on complete individual health',
+    language === 'ar' ? 'خطط تغذية مبنية على أحدث الأبحاث العلمية' : 'Nutrition plans based on latest scientific research',
+    language === 'ar' ? 'استراتيجيات مستدامة طويلة الأمد' : 'Sustainable long-term strategies',
+    language === 'ar' ? 'متابعة مستمرة ودعم شامل للمرضى' : 'Continuous follow-up and comprehensive patient support',
+    language === 'ar' ? 'تعليم المرضى وتمكينهم لاتخاذ قرارات صحية' : 'Patient education and empowerment for health decisions',
   ];
 
   return (
@@ -95,15 +120,20 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
             >
               <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                {language === 'ar' ? 'عن د. نورا أحمد' : 'About Dr. Noura Ahmed'}
+                {language === 'ar' ? 'د. نورا أحمد' : 'Dr. Noura Ahmed'}
               </h1>
               <p className="text-xl text-primary font-semibold mb-6">
-                {language === 'ar' ? 'أخصائية التغذية العلاجية' : 'Clinical Nutrition Specialist'}
+                {language === 'ar' ? 'أخصائي تغذية علاجية' : 'Clinical Nutrition Specialist'}
+              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+                {language === 'ar'
+                  ? 'د. نورا أحمد أخصائية تغذية علاجية معتمدة مع سنوات من الخبرة في مجال التغذية العلاجية والرياضية. تمتلك خبرة واسعة في التعامل مع مختلف الحالات من السمنة والأمراض المزمنة إلى التغذية الرياضية وتغذية الأطفال.'
+                  : 'Dr. Noura Ahmed is a certified clinical nutrition specialist with years of experience in therapeutic and sports nutrition. She has extensive experience dealing with various cases from obesity and chronic diseases to sports nutrition and pediatric nutrition.'}
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 {language === 'ar'
-                  ? 'د. نورا أحمد أخصائية تغذية علاجية معتمدة مع أكثر من 10 سنوات من الخبرة في مجال التغذية الطبية. تمتلك شغفاً حقيقياً بمساعدة الأفراد على تحقيق أهدافهم الصحية من خلال التغذية المتوازنة والعلمية.'
-                  : 'Dr. Noura Ahmed is a certified clinical nutrition specialist with over 10 years of experience in medical nutrition. She has a genuine passion for helping individuals achieve their health goals through balanced and scientific nutrition.'}
+                  ? 'نهجها الشامل يجمع بين العلم الحديث والفهم العميق لاحتياجات كل مريض، مما يضمن تحقيق أفضل النتائج الصحية.'
+                  : 'Her holistic approach combines modern science with deep understanding of each patient\'s needs, ensuring the best health outcomes.'}
               </p>
             </motion.div>
 
@@ -136,11 +166,11 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {language === 'ar' ? 'المؤهلات الأكاديمية' : 'Academic Qualifications'}
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              {language === 'ar' ? 'الشهادات التعليمية' : 'Educational Qualifications'}
             </h2>
             <p className="text-xl text-primary font-semibold">
-              {language === 'ar' ? 'التعليم والشهادات' : 'Education & Credentials'}
+              {language === 'ar' ? 'المؤهلات الأكاديمية' : 'Academic Credentials'}
             </p>
           </motion.div>
 
@@ -153,12 +183,11 @@ export default function AboutPage() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="h-full hover:shadow-lg transition-shadow">
+                <Card className="h-full hover:shadow-lg transition-shadow border-2 hover:border-primary/50">
                   <CardContent className="pt-6">
                     <qual.icon className="w-12 h-12 text-primary mb-4" />
                     <h3 className="text-lg font-bold mb-2">{qual.title}</h3>
-                    <p className="text-muted-foreground mb-2">{qual.institution}</p>
-                    <p className="text-primary font-semibold">{qual.year}</p>
+                    <p className="text-muted-foreground">{qual.institution}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -174,7 +203,7 @@ export default function AboutPage() {
             className="max-w-3xl mx-auto"
           >
             <h3 className="text-2xl font-bold text-center mb-8">
-              {language === 'ar' ? 'الشهادات المهنية' : 'Professional Certifications'}
+              {language === 'ar' ? 'الشهادات والدورات المهنية' : 'Professional Certificates & Courses'}
             </h3>
             <div className="grid md:grid-cols-2 gap-4">
               {certifications.map((cert, index) => (
@@ -188,7 +217,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Specializations */}
+      {/* Professional Expertise */}
       <section className="py-20 px-4 bg-muted/30">
         <div className="container mx-auto">
           <motion.div
@@ -198,16 +227,16 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {language === 'ar' ? 'مجالات التخصص' : 'Areas of Specialization'}
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              {language === 'ar' ? 'الخبرات المهنية' : 'Professional Expertise'}
             </h2>
             <p className="text-xl text-primary font-semibold">
-              {language === 'ar' ? 'الخبرات المتخصصة' : 'Specialized Expertise'}
+              {language === 'ar' ? 'مجالات التخصص والخبرة' : 'Areas of Specialization & Experience'}
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {specializations.map((spec, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {expertise.map((exp, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
@@ -215,11 +244,11 @@ export default function AboutPage() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="h-full hover:shadow-lg transition-shadow">
+                <Card className="h-full hover:shadow-lg transition-shadow border-2 hover:border-primary/50">
                   <CardContent className="pt-6">
-                    <spec.icon className="w-12 h-12 text-primary mb-4" />
-                    <h3 className="text-xl font-bold mb-3">{spec.title}</h3>
-                    <p className="text-muted-foreground">{spec.description}</p>
+                    <exp.icon className="w-12 h-12 text-primary mb-4" />
+                    <h3 className="text-xl font-bold mb-3">{exp.title}</h3>
+                    <p className="text-muted-foreground">{exp.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -228,8 +257,45 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Philosophy */}
+      {/* Services Sections */}
       <section className="py-20 px-4">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              {language === 'ar' ? 'أقسام الخدمات' : 'Service Sections'}
+            </h2>
+            <p className="text-xl text-primary font-semibold">
+              {language === 'ar' ? 'الخدمات المقدمة' : 'Services Offered'}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto"
+          >
+            <div className="grid md:grid-cols-2 gap-4">
+              {services.map((service, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <p className="text-lg font-medium">{service}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Philosophy */}
+      <section className="py-20 px-4 bg-muted/30">
         <div className="container mx-auto max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -238,13 +304,13 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {language === 'ar' ? 'فلسفتي في العلاج' : 'My Treatment Philosophy'}
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              {language === 'ar' ? 'فلسفة التغذية العلاجية' : 'Therapeutic Nutrition Philosophy'}
             </h2>
             <p className="text-lg text-muted-foreground">
               {language === 'ar'
-                ? 'أؤمن بأن التغذية الصحية هي رحلة شخصية فريدة لكل فرد. نهجي يجمع بين العلم الحديث والفهم العميق لاحتياجات كل مريض.'
-                : 'I believe that healthy nutrition is a unique personal journey for each individual. My approach combines modern science with deep understanding of each patient\'s needs.'}
+                ? 'أؤمن بأن التغذية الصحية هي رحلة شخصية فريدة لكل فرد. نهجي يجمع بين العلم الحديث والفهم العميق لاحتياجات كل مريض، مع التركيز على تحقيق نتائج مستدامة طويلة الأمد.'
+                : 'I believe that healthy nutrition is a unique personal journey for each individual. My approach combines modern science with deep understanding of each patient\'s needs, focusing on achieving sustainable long-term results.'}
             </p>
           </motion.div>
 
