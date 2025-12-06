@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
-import { Award, GraduationCap, Briefcase, Heart, Users, Target, CheckCircle, Activity, Stethoscope, Medal, TrendingUp, Scale } from 'lucide-react';
+import { Award, GraduationCap, Briefcase, Heart, Users, Target, CheckCircle, Activity, Stethoscope, Medal, TrendingUp, Scale, Baby } from 'lucide-react';
 
 export default function AboutPage() {
   const { language } = useLanguage();
@@ -46,7 +46,7 @@ export default function AboutPage() {
         : 'Specialized nutrition programs for athletes to improve performance and achieve sports goals',
     },
     {
-      icon: Users,
+      icon: Baby,
       title: language === 'ar' ? 'تغذية الطفل والطفل الرياضي والمسنين' : 'Child, Young Athlete & Elderly Nutrition',
       description: language === 'ar'
         ? 'برامج تغذية مخصصة لمراحل النمو المختلفة واحتياجات المسنين الخاصة'
@@ -68,7 +68,7 @@ export default function AboutPage() {
     },
     {
       icon: Activity,
-      title: language === 'ar' ? 'تغذية علاجية للأمراض المزمنة' : 'Therapeutic Nutrition for Chronic Diseases',
+      title: language === 'ar' ? 'تغذية علاجية للأمراض المزمنة (السكر – الكبد...)' : 'Therapeutic Nutrition for Chronic Diseases',
       description: language === 'ar'
         ? 'برامج تغذية علاجية متخصصة لمرضى السكر والكبد والأمراض المزمنة'
         : 'Specialized therapeutic nutrition programs for diabetes, liver disease and chronic conditions',

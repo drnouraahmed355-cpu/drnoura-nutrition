@@ -33,41 +33,53 @@ export default function Home() {
   const services = [
     {
       icon: Scale,
-      title: t('services.weightManagement'),
-      description: t('services.weightManagementDesc'),
+      title: language === 'ar' ? 'خدمة السمنة' : 'Obesity Service',
+      description: language === 'ar' ? 'متابعة حالات السمنة وما بعد جراحات السمنة' : 'Obesity follow-up and post-bariatric surgery care',
     },
     {
       icon: Activity,
-      title: t('services.chronicDisease'),
-      description: t('services.chronicDiseaseDesc'),
+      title: language === 'ar' ? 'التغذية العلاجية' : 'Therapeutic Nutrition',
+      description: language === 'ar' ? 'تغذية علاجية للأمراض المزمنة (السكر – الكبد...)' : 'Therapeutic nutrition for chronic diseases (diabetes, liver...)',
     },
     {
       icon: TrendingUp,
-      title: t('services.sportsNutrition'),
-      description: t('services.sportsNutritionDesc'),
+      title: language === 'ar' ? 'التغذية الرياضية' : 'Sports Nutrition',
+      description: language === 'ar' ? 'تغذية رياضية وتغذية الطفل الرياضي' : 'Sports nutrition and young athlete nutrition',
     },
     {
       icon: Baby,
-      title: t('services.pediatricNutrition'),
-      description: t('services.pediatricNutritionDesc'),
+      title: language === 'ar' ? 'تغذية الأطفال' : 'Pediatric Nutrition',
+      description: language === 'ar' ? 'تغذية الطفل والمسنين' : 'Child and elderly nutrition',
     },
     {
       icon: Heart,
-      title: t('services.prenatalNutrition'),
-      description: t('services.prenatalNutritionDesc'),
+      title: language === 'ar' ? 'المتابعة أونلاين' : 'Online Follow-up',
+      description: language === 'ar' ? 'متابعة أونلاين لحالات السمنة ومرضى السكر والضغط' : 'Online follow-up for obesity, diabetes and hypertension cases',
     },
     {
       icon: AlertCircle,
-      title: t('services.foodAllergies'),
-      description: t('services.foodAllergiesDesc'),
+      title: language === 'ar' ? 'حساب السعرات' : 'Calorie Calculation',
+      description: language === 'ar' ? 'حساب السعرات وتحديد الهدف' : 'Calorie calculation and goal setting',
     },
   ];
 
   const credentials = [
-    { icon: Award, text: t('credentials.master') },
-    { icon: Award, text: t('credentials.diploma') },
-    { icon: Award, text: t('credentials.bachelor') },
-    { icon: Award, text: t('credentials.certified') },
+    { 
+      icon: Award, 
+      text: language === 'ar' ? 'ماجستير تغذية صحية – جامعة القاهرة' : 'Master\'s in Healthy Nutrition - Cairo University'
+    },
+    { 
+      icon: Award, 
+      text: language === 'ar' ? 'دبلومة تغذية صحية – نقابة الزراعيين' : 'Diploma in Healthy Nutrition - Agricultural Syndicate'
+    },
+    { 
+      icon: Award, 
+      text: language === 'ar' ? 'كلية زراعة – علوم وتكنولوجيا الأغذية والتغذية' : 'Bachelor in Food Science & Technology'
+    },
+    { 
+      icon: Award, 
+      text: language === 'ar' ? 'دورات متخصصة في إدارة المستشفيات وتنمية المهارات' : 'Specialized courses in hospital management'
+    },
   ];
 
   const testimonials = [
@@ -247,7 +259,9 @@ export default function Home() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               {t('about.title')}
             </h2>
-            <p className="text-xl text-primary font-semibold">{t('about.subtitle')}</p>
+            <p className="text-xl text-primary font-semibold">
+              {language === 'ar' ? 'أخصائي تغذية علاجية' : 'Clinical Nutrition Specialist'}
+            </p>
           </motion.div>
 
           <div className="max-w-3xl mx-auto mb-12">
@@ -258,7 +272,9 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              {t('about.bio')}
+              {language === 'ar'
+                ? 'د. نورا أحمد – أخصائي تغذية علاجية معتمدة مع خبرة واسعة في مجالات متعددة تشمل التغذية الرياضية، تغذية الأطفال والمسنين، متابعة حالات السمنة وما بعد جراحات السمنة، والتغذية العلاجية للأمراض المزمنة. تتميز بخبرة عملية في العمل على أجهزة التخسيس وتقنية الميزوثيرابي، بالإضافة إلى تقديم خدمة المتابعة أونلاين للمرضى.'
+                : 'Dr. Noura Ahmed – Certified clinical nutrition specialist with extensive experience in multiple fields including sports nutrition, pediatric and elderly nutrition, obesity and post-bariatric surgery follow-up, and therapeutic nutrition for chronic diseases. Distinguished by practical experience in weight loss devices and mesotherapy techniques, in addition to providing online follow-up services for patients.'}
             </motion.p>
           </div>
 
@@ -432,8 +448,11 @@ export default function Home() {
               <Card className="border-2 border-primary/20 hover:shadow-xl transition-all">
                 <CardContent className="pt-6">
                   <div className="space-y-6">
-                    <motion.div 
-                      className="flex items-start gap-4"
+                    <motion.a
+                      href="https://maps.app.goo.gl/Vj6N72XdtwqU38JBA"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-start gap-4 cursor-pointer"
                       whileHover={{ x: language === 'ar' ? -5 : 5 }}
                     >
                       <MapPin className="w-6 h-6 text-primary mt-1" />
@@ -443,7 +462,7 @@ export default function Home() {
                           {language === 'ar' ? 'القناطر الخيرية، القليوبية' : 'Al Qanater, Qalyubia'}
                         </p>
                       </div>
-                    </motion.div>
+                    </motion.a>
                     <motion.div 
                       className="flex items-start gap-4"
                       whileHover={{ x: language === 'ar' ? -5 : 5 }}
@@ -501,7 +520,7 @@ export default function Home() {
               className="rounded-lg overflow-hidden shadow-lg h-[400px] border-2 border-primary/20"
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55201.66258783696!2d31.109885!3d30.21194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14581762e0e08b27%3A0x2ada9bc6c2d3db91!2sAl%20Qanater%20Al%20Khaireya%2C%20Qism%20Al%20Qanater%20Al%20Khairia%2C%20Qalyubia%20Governorate!5e0!3m2!1sen!2seg!4v1709000000000!5m2!1sen!2seg"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.8936394722194!2d31.124431!3d30.196733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDExJzQ4LjIiTiAzMcKwMDcnMjcuOSJF!5e0!3m2!1sen!2seg!4v1234567890!5m2!1sen!2seg"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

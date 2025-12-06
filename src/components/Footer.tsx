@@ -130,7 +130,7 @@ export default function Footer() {
               <motion.a
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
-                href="https://t.me/+201019295074"
+                href="https://t.me/201019295074"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-secondary hover:text-primary-foreground transition-all"
