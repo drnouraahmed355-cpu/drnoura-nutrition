@@ -408,6 +408,28 @@ export default function BookingPage() {
                         </div>
                       </RadioGroup>
                     </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="favoriteFoods">{language === 'ar' ? 'الأكل المحبب لك' : 'Your favorite foods'}</Label>
+                      <Textarea
+                        id="favoriteFoods"
+                        value={formData.favoriteFoods}
+                        onChange={(e) => handleChange('favoriteFoods', e.target.value)}
+                        placeholder={language === 'ar' ? 'اذكر الأطعمة المفضلة لديك' : 'List your favorite foods'}
+                        rows={2}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="dislikedFoods">{language === 'ar' ? 'الأكل غير المحبب أو الذي لا تأكله' : 'Foods you dislike or don\'t eat'}</Label>
+                      <Textarea
+                        id="dislikedFoods"
+                        value={formData.dislikedFoods}
+                        onChange={(e) => handleChange('dislikedFoods', e.target.value)}
+                        placeholder={language === 'ar' ? 'اذكر الأطعمة التي لا تحبها أو لا تأكلها' : 'List foods you dislike or don\'t eat'}
+                        rows={2}
+                      />
+                    </div>
                   </motion.div>
 
                   {/* Lifestyle Information */}
