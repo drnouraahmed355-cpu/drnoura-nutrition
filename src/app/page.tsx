@@ -64,10 +64,10 @@ export default function Home() {
   ];
 
   const credentials = [
-    { icon: Award, text: t('credentials.phd') },
     { icon: Award, text: t('credentials.master') },
+    { icon: Award, text: t('credentials.diploma') },
+    { icon: Award, text: t('credentials.bachelor') },
     { icon: Award, text: t('credentials.certified') },
-    { icon: Award, text: t('credentials.member') },
   ];
 
   const testimonials = [
@@ -501,7 +501,7 @@ export default function Home() {
               className="rounded-lg overflow-hidden shadow-lg h-[400px] border-2 border-primary/20"
             >
               <iframe
-                src="https://maps.app.goo.gl/Vj6N72XdtwqU38JBA"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55290.67193729673!2d31.10916!3d30.18901!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14581762e0e08b27%3A0x8e9d5e3c5f5f5f5f!2sAl%20Qanater%2C%20Qalyubia%20Governorate!5e0!3m2!1sen!2seg!4v1234567890"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
