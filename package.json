@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "db:studio": "drizzle-kit studio"
+        "db:studio": "drizzle-kit studio --port 4985"
     },
     "dependencies": {
         "@babel/parser": "^7.28.5",
