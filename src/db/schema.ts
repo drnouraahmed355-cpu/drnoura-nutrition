@@ -226,3 +226,51 @@ export const notifications = sqliteTable('notifications', {
   read: integer('read', { mode: 'boolean' }).default(false),
   createdAt: text('created_at').notNull(),
 });
+
+// CMS Tables for Dr. Noura Ahmed website
+export const siteContent = sqliteTable('site_content', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  section: text('section').notNull(),
+  key: text('key').notNull(),
+  valueAr: text('value_ar').notNull(),
+  valueEn: text('value_en').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
+
+export const credentials = sqliteTable('credentials', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  titleAr: text('title_ar').notNull(),
+  titleEn: text('title_en').notNull(),
+  institutionAr: text('institution_ar').notNull(),
+  institutionEn: text('institution_en').notNull(),
+  displayOrder: integer('display_order').notNull().default(0),
+  isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
+
+export const expertiseAreas = sqliteTable('expertise_areas', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  titleAr: text('title_ar').notNull(),
+  titleEn: text('title_en').notNull(),
+  descriptionAr: text('description_ar').notNull(),
+  descriptionEn: text('description_en').notNull(),
+  icon: text('icon').notNull(),
+  displayOrder: integer('display_order').notNull().default(0),
+  isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
+
+export const testimonials = sqliteTable('testimonials', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  nameAr: text('name_ar').notNull(),
+  nameEn: text('name_en').notNull(),
+  textAr: text('text_ar').notNull(),
+  textEn: text('text_en').notNull(),
+  rating: integer('rating').notNull().default(5),
+  displayOrder: integer('display_order').notNull().default(0),
+  isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
