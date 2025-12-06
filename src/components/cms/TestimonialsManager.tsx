@@ -41,12 +41,7 @@ export default function TestimonialsManager() {
 
   const fetchTestimonials = async () => {
     try {
-      const token = localStorage.getItem('bearer_token');
-      const res = await fetch('/api/cms/testimonials?isActive=true', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await fetch('/api/cms/testimonials?isActive=true');
       const data = await res.json();
       if (data.success) {
         setTestimonials(data.data);

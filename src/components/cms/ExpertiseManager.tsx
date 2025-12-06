@@ -41,12 +41,7 @@ export default function ExpertiseManager() {
 
   const fetchExpertise = async () => {
     try {
-      const token = localStorage.getItem('bearer_token');
-      const res = await fetch('/api/cms/expertise?isActive=true', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await fetch('/api/cms/expertise?isActive=true');
       const data = await res.json();
       if (data.success) {
         setExpertise(data.data);
