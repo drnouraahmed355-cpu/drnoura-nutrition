@@ -6,15 +6,7 @@ import { getCurrentUser } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
   try {
-    const user = await getCurrentUser(request);
-    if (!user) {
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Authentication required',
-        code: 'AUTH_REQUIRED' 
-      }, { status: 401 });
-    }
-
+    // Remove authentication for GET - public content
     const searchParams = request.nextUrl.searchParams;
     const isActiveParam = searchParams.get('isActive');
     const limit = Math.min(parseInt(searchParams.get('limit') ?? '50'), 100);

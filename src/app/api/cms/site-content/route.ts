@@ -2,19 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
 import { siteContent } from '@/db/schema';
 import { eq, and, asc, count } from 'drizzle-orm';
-import { getCurrentUser } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
   try {
-    const user = await getCurrentUser(request);
-    if (!user) {
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Authentication required',
-        code: 'AUTHENTICATION_REQUIRED'
-      }, { status: 401 });
-    }
-
     const searchParams = request.nextUrl.searchParams;
     const section = searchParams.get('section');
     const key = searchParams.get('key');
