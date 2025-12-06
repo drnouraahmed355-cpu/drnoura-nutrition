@@ -418,4 +418,32 @@ export default function AppointmentsPage() {
                             <p className="text-sm mt-1 text-muted-foreground">{getTypeLabel(appointment.type)}</p>
                             {appointment.notes && (
                               <p className="text-sm mt-2 text-muted-foreground italic">{appointment.notes}</p>
-                            )}\n                          </div>\n                        </div>\n                        <div className=\"flex items-center gap-3\">\n                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(appointment.status)}`}>\n                            {getStatusLabel(appointment.status)}\n                          </span>\n                          {appointment.status === 'scheduled' && (\n                            <Button\n                              variant=\"destructive\"\n                              size=\"sm\"\n                              onClick={() => handleCancelAppointment(appointment.id)}\n                            >\n                              {language === 'ar' ? 'إلغاء' : 'Cancel'}\n                            </Button>\n                          )}\n                        </div>\n                      </div>\n                    </CardContent>\n                  </Card>\n                </motion.div>\n              ))}\n            </div>\n          )}\n        </CardContent>\n      </Card>\n    </div>\n  );\n}\n
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(appointment.status)}`}>
+                            {getStatusLabel(appointment.status)}
+                          </span>
+                          {appointment.status === 'scheduled' && (
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleCancelAppointment(appointment.id)}
+                            >
+                              {language === 'ar' ? 'إلغاء' : 'Cancel'}
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
