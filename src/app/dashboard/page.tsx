@@ -17,6 +17,7 @@ import {
   CheckCircle,
   XCircle,
   Loader2,
+  FileText,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -272,7 +273,7 @@ export default function DashboardPage() {
           <CardTitle>{language === 'ar' ? 'إجراءات سريعة' : 'Quick Actions'}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid md:grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-5 gap-4">
             <Link href="/dashboard/patients">
               <Button variant="outline" className="w-full h-20">
                 <div className="text-center">
@@ -302,6 +303,14 @@ export default function DashboardPage() {
                 <div className="text-center">
                   <Activity className="w-6 h-6 mx-auto mb-2" />
                   <p className="text-sm">{language === 'ar' ? 'الرسائل' : 'Messages'}</p>
+                </div>
+              </Button>
+            </Link>
+            <Link href="/dashboard/cms">
+              <Button variant="outline" className="w-full h-20 border-primary/30 hover:border-primary">
+                <div className="text-center">
+                  <FileText className="w-6 h-6 mx-auto mb-2 text-primary" />
+                  <p className="text-sm font-semibold">{language === 'ar' ? 'إدارة المحتوى' : 'Content Manager'}</p>
                 </div>
               </Button>
             </Link>
