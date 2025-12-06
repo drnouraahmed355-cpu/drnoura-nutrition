@@ -4,8 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Facebook, Instagram, Phone, Mail, MapPin, MessageCircle, Globe } from 'lucide-react';
-import { FaTiktok } from 'react-icons/fa';
+import { Facebook, Instagram, Phone, Mail, MapPin, MessageCircle, Globe, Send } from 'lucide-react';
+import { FaTiktok, FaTelegramPlane } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 export default function Footer() {
@@ -126,6 +126,16 @@ export default function Footer() {
                 className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-secondary hover:text-primary-foreground transition-all"
               >
                 <FaTiktok className="w-5 h-5" />
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                href="https://t.me/+201019295074"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-secondary hover:text-primary-foreground transition-all"
+              >
+                <FaTelegramPlane className="w-5 h-5" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1, rotate: 5 }}
