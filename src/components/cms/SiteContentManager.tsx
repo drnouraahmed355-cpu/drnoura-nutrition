@@ -35,12 +35,7 @@ export default function SiteContentManager() {
 
   const fetchContent = async () => {
     try {
-      const token = localStorage.getItem('bearer_token');
-      const res = await fetch('/api/cms/site-content', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await fetch('/api/cms/site-content');
       const data = await res.json();
       if (data.success) {
         setContent(data.data);
