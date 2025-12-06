@@ -189,7 +189,9 @@ export default function AppointmentsPage() {
     );
   }
 
-  if (!session?.user) return null;
+  if (!session?.user) {
+    return null;
+  }
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -242,7 +244,6 @@ export default function AppointmentsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
@@ -347,7 +348,6 @@ export default function AppointmentsPage() {
         </Dialog>
       </div>
 
-      {/* Filters */}
       <Card>
         <CardContent className="pt-6">
           <div className="flex items-center gap-4">
@@ -367,7 +367,6 @@ export default function AppointmentsPage() {
         </CardContent>
       </Card>
 
-      {/* Appointments List */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
