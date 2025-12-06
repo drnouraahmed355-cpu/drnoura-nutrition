@@ -501,7 +501,7 @@ export default function Home() {
               className="rounded-lg overflow-hidden shadow-lg h-[400px] border-2 border-primary/20"
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55290.67193729673!2d31.10916!3d30.18901!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14581762e0e08b27%3A0x8e9d5e3c5f5f5f5f!2sAl%20Qanater%2C%20Qalyubia%20Governorate!5e0!3m2!1sen!2seg!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55201.66258783696!2d31.109885!3d30.21194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14581762e0e08b27%3A0x2ada9bc6c2d3db91!2sAl%20Qanater%20Al%20Khaireya%2C%20Qism%20Al%20Qanater%20Al%20Khairia%2C%20Qalyubia%20Governorate!5e0!3m2!1sen!2seg!4v1709000000000!5m2!1sen!2seg"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
