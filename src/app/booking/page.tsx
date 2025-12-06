@@ -38,6 +38,11 @@ export default function BookingPage() {
     mentalHealth: '',
     eatingPattern: '',
     consultationTime: '',
+    takingVitamins: '',
+    vitaminDetails: '',
+    favoriteFoods: '',
+    dislikedFoods: '',
+    dairyAllergy: '',
   });
 
   const handleChange = (field: string, value: string) => {
@@ -70,7 +75,14 @@ export default function BookingPage() {
       if (formData.weightGoal) message += `• الهدف: ${formData.weightGoal}\n`;
       if (formData.medications) message += `• الأدوية/المكملات: ${formData.medications}\n`;
       if (formData.previousDiet) message += `• تجارب دايت سابقة: ${formData.previousDiet}\n`;
-      if (formData.dietMedication) message += `• دايت بعلاج تخسيس: ${formData.dietMedication}\n\n`;
+      if (formData.dietMedication) message += `• دايت بعلاج تخسيس: ${formData.dietMedication}\n`;
+      if (formData.takingVitamins) message += `• تناول فيتامينات: ${formData.takingVitamins}\n`;
+      if (formData.vitaminDetails) message += `• تفاصيل الفيتامينات: ${formData.vitaminDetails}\n`;
+      if (formData.dairyAllergy) message += `• حساسية الألبان: ${formData.dairyAllergy}\n\n`;
+      
+      message += `🍽️ *تفضيلات الطعام:*\n`;
+      if (formData.favoriteFoods) message += `• الأكل المحبب: ${formData.favoriteFoods}\n`;
+      if (formData.dislikedFoods) message += `• الأكل غير المحبب: ${formData.dislikedFoods}\n\n`;
       
       message += `💼 *نمط الحياة:*\n`;
       if (formData.currentlyWorking) message += `• العمل: ${formData.currentlyWorking}\n`;
@@ -96,7 +108,14 @@ export default function BookingPage() {
       if (formData.weightGoal) message += `• Goal: ${formData.weightGoal}\n`;
       if (formData.medications) message += `• Medications/Supplements: ${formData.medications}\n`;
       if (formData.previousDiet) message += `• Previous diet experience: ${formData.previousDiet}\n`;
-      if (formData.dietMedication) message += `• Diet with medication: ${formData.dietMedication}\n\n`;
+      if (formData.dietMedication) message += `• Diet with medication: ${formData.dietMedication}\n`;
+      if (formData.takingVitamins) message += `• Taking vitamins: ${formData.takingVitamins}\n`;
+      if (formData.vitaminDetails) message += `• Vitamin details: ${formData.vitaminDetails}\n`;
+      if (formData.dairyAllergy) message += `• Dairy allergy: ${formData.dairyAllergy}\n\n`;
+      
+      message += `🍽️ *Food Preferences:*\n`;
+      if (formData.favoriteFoods) message += `• Favorite foods: ${formData.favoriteFoods}\n`;
+      if (formData.dislikedFoods) message += `• Disliked foods: ${formData.dislikedFoods}\n\n`;
       
       message += `💼 *Lifestyle:*\n`;
       if (formData.currentlyWorking) message += `• Working: ${formData.currentlyWorking}\n`;
@@ -142,6 +161,11 @@ export default function BookingPage() {
       mentalHealth: '',
       eatingPattern: '',
       consultationTime: '',
+      takingVitamins: '',
+      vitaminDetails: '',
+      favoriteFoods: '',
+      dislikedFoods: '',
+      dairyAllergy: '',
     });
 
     setIsSubmitting(false);
@@ -342,6 +366,45 @@ export default function BookingPage() {
                         <div className="flex items-center space-x-2 space-x-reverse">
                           <RadioGroupItem value="no" id="med-no" />
                           <Label htmlFor="med-no">{language === 'ar' ? 'لا' : 'No'}</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="takingVitamins">{language === 'ar' ? 'هل تتناول فيتامينات؟' : 'Do you take vitamins?'}</Label>
+                      <RadioGroup value={formData.takingVitamins} onValueChange={(value) => handleChange('takingVitamins', value)}>
+                        <div className="flex items-center space-x-2 space-x-reverse">
+                          <RadioGroupItem value="yes" id="vit-yes" />
+                          <Label htmlFor="vit-yes">{language === 'ar' ? 'نعم' : 'Yes'}</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 space-x-reverse">
+                          <RadioGroupItem value="no" id="vit-no" />
+                          <Label htmlFor="vit-no">{language === 'ar' ? 'لا' : 'No'}</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="vitaminDetails">{language === 'ar' ? 'تفاصيل الفيتامينات' : 'Vitamin details'}</Label>
+                      <Textarea
+                        id="vitaminDetails"
+                        value={formData.vitaminDetails}
+                        onChange={(e) => handleChange('vitaminDetails', e.target.value)}
+                        placeholder={language === 'ar' ? 'اذكر نوع الفيتامينات أو المكملات' : 'List vitamin types or supplements'}
+                        rows={2}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="dairyAllergy">{language === 'ar' ? 'هل تمتلك حساسية من الألبان؟' : 'Do you have dairy allergy?'}</Label>
+                      <RadioGroup value={formData.dairyAllergy} onValueChange={(value) => handleChange('dairyAllergy', value)}>
+                        <div className="flex items-center space-x-2 space-x-reverse">
+                          <RadioGroupItem value="yes" id="dairy-yes" />
+                          <Label htmlFor="dairy-yes">{language === 'ar' ? 'نعم' : 'Yes'}</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 space-x-reverse">
+                          <RadioGroupItem value="no" id="dairy-no" />
+                          <Label htmlFor="dairy-no">{language === 'ar' ? 'لا' : 'No'}</Label>
                         </div>
                       </RadioGroup>
                     </div>
