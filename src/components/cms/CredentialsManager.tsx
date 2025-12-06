@@ -38,12 +38,7 @@ export default function CredentialsManager() {
 
   const fetchCredentials = async () => {
     try {
-      const token = localStorage.getItem('bearer_token');
-      const res = await fetch('/api/cms/credentials?isActive=true', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await fetch('/api/cms/credentials?isActive=true');
       const data = await res.json();
       if (data.success) {
         setCredentials(data.data);
