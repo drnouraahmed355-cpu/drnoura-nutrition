@@ -28,28 +28,49 @@ export default function StaffLoginPage() {
     setIsLoading(true);
 
     try {
+      // Sign in
       const { data, error } = await authClient.signIn.email({
         email: formData.email,
         password: formData.password,
-        callbackURL: '/dashboard',
       });
 
-      if (error) {
+      if (error?.code) {
+        console.error('Sign in error:', error);
         toast.error(
           language === 'ar'
-            ? 'بيانات الدخول غير صحيحة'
-            : 'Invalid credentials'
+            ? 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
+            : 'Invalid email or password'
         );
         setIsLoading(false);
         return;
       }
 
+      // Wait a bit for token to be saved
+      await new Promise(resolve => setTimeout(resolve, 500));
+
       // Check user role
-      const roleResponse = await fetch('/api/auth/role');
+      const token = localStorage.getItem("bearer_token");
+      const roleResponse = await fetch('/api/auth/role', {
+        headers: {
+          'Authorization': `Bearer ${token || ''}`,
+        },
+      });
+
+      if (!roleResponse.ok) {
+        toast.error(
+          language === 'ar'
+            ? 'حدث خطأ في التحقق من الصلاحيات'
+            : 'Error verifying permissions'
+        );
+        setIsLoading(false);
+        return;
+      }
+
       const roleData = await roleResponse.json();
 
-      if (roleData.role === 'patient') {
+      if (roleData.data?.role === 'patient') {
         await authClient.signOut();
+        localStorage.removeItem("bearer_token");
         toast.error(
           language === 'ar'
             ? 'هذه الصفحة مخصصة للموظفين والأطباء فقط'
@@ -59,20 +80,11 @@ export default function StaffLoginPage() {
         return;
       }
 
-      // Check if password needs change
-      if (roleData.passwordNeedsChange) {
-        toast.info(
-          language === 'ar'
-            ? 'يجب تغيير كلمة المرور عند أول تسجيل دخول'
-            : 'Please change your password on first login'
-        );
-        router.push('/dashboard?changePassword=true');
-        return;
-      }
-
       toast.success(
         language === 'ar' ? 'تم تسجيل الدخول بنجاح' : 'Login successful'
       );
+      
+      // Redirect to dashboard
       router.push('/dashboard');
     } catch (error) {
       console.error('Login error:', error);
@@ -129,6 +141,7 @@ export default function StaffLoginPage() {
                   required
                   disabled={isLoading}
                   className="text-lg"
+                  dir="ltr"
                 />
               </div>
 
