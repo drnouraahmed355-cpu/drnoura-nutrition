@@ -184,29 +184,17 @@ export default function Home() {
                   </Link>
                 </motion.div>
 
-                {/* Login Options - Separate Buttons */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Link href="/patient-login" className="block">
-                      <Button size="lg" variant="outline" className="w-full border-2 border-primary/50 hover:border-primary hover:bg-primary/5">
-                        <FileText className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
-                        <span className="text-sm">
-                          {language === 'ar' ? 'ملفي الطبي' : 'Medical Record'}
-                        </span>
-                      </Button>
-                    </Link>
-                  </motion.div>
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Link href="/staff-login" className="block">
-                      <Button size="lg" variant="outline" className="w-full border-2 border-secondary/50 hover:border-secondary hover:bg-secondary/5">
-                        <ShieldCheck className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
-                        <span className="text-sm">
-                          {language === 'ar' ? 'لوحة الإدارة' : 'Admin Panel'}
-                        </span>
-                      </Button>
-                    </Link>
-                  </motion.div>
-                </div>
+                {/* Medical Record Button Only */}
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Link href="/patient-login" className="block">
+                    <Button size="lg" variant="outline" className="w-full border-2 border-primary/50 hover:border-primary hover:bg-primary/5">
+                      <FileText className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                      <span>
+                        {language === 'ar' ? 'ملفي الطبي' : 'Medical Record'}
+                      </span>
+                    </Button>
+                  </Link>
+                </motion.div>
               </div>
             </motion.div>
 
