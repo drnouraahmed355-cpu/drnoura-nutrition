@@ -10,9 +10,16 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { motion } from 'framer-motion';
-import { UserCog, Search, Plus, Loader2, AlertCircle, Shield } from 'lucide-react';
+import { UserCog, Search, Plus, Loader2, AlertCircle, Shield, Edit, Trash2, Key, MoreVertical } from 'lucide-react';
 import { toast } from 'sonner';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface Staff {
   id: number;
@@ -34,14 +41,27 @@ export default function StaffPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
+  const [newPassword, setNewPassword] = useState('');
 
   const [newStaff, setNewStaff] = useState({
     fullName: '',
     email: '',
     phone: '',
-    role: 'assistant',
+    role: 'staff',
     permissions: [] as string[],
+  });
+
+  const [editStaff, setEditStaff] = useState({
+    fullName: '',
+    phone: '',
+    role: 'staff',
+    permissions: [] as string[],
+    status: 'active',
   });
 
   useEffect(() => {
@@ -61,8 +81,8 @@ export default function StaffPage() {
       setIsLoading(true);
       const token = localStorage.getItem('bearer_token');
       const url = roleFilter !== 'all'
-        ? `/api/staff?role=${roleFilter}`
-        : '/api/staff';
+        ? `/api/admin/staff?role=${roleFilter}`
+        : '/api/admin/staff';
 
       const response = await fetch(url, {
         headers: {
@@ -90,7 +110,7 @@ export default function StaffPage() {
 
     try {
       const token = localStorage.getItem('bearer_token');
-      const response = await fetch('/api/staff', {
+      const response = await fetch('/api/admin/staff', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +132,7 @@ export default function StaffPage() {
           fullName: '',
           email: '',
           phone: '',
-          role: 'assistant',
+          role: 'staff',
           permissions: [],
         });
         fetchStaff();
@@ -125,6 +145,125 @@ export default function StaffPage() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleEditStaff = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedStaff) return;
+
+    setIsSubmitting(true);
+    try {
+      const token = localStorage.getItem('bearer_token');
+      const response = await fetch(`/api/admin/staff/${selectedStaff.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(editStaff),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        toast.success(language === 'ar' ? 'تم تحديث الموظف بنجاح' : 'Staff updated successfully');
+        setIsEditDialogOpen(false);
+        setSelectedStaff(null);
+        fetchStaff();
+      } else {
+        toast.error(result.error || (language === 'ar' ? 'فشل في تحديث الموظف' : 'Failed to update staff'));
+      }
+    } catch (error) {
+      console.error('Error updating staff:', error);
+      toast.error(language === 'ar' ? 'حدث خطأ' : 'An error occurred');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedStaff || !newPassword) return;
+
+    setIsSubmitting(true);
+    try {
+      const token = localStorage.getItem('bearer_token');
+      const response = await fetch(`/api/admin/staff/${selectedStaff.id}/password`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ newPassword }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        toast.success(language === 'ar' ? 'تم تغيير كلمة المرور بنجاح' : 'Password changed successfully');
+        setIsPasswordDialogOpen(false);
+        setSelectedStaff(null);
+        setNewPassword('');
+      } else {
+        toast.error(result.error || (language === 'ar' ? 'فشل في تغيير كلمة المرور' : 'Failed to change password'));
+      }
+    } catch (error) {
+      console.error('Error changing password:', error);
+      toast.error(language === 'ar' ? 'حدث خطأ' : 'An error occurred');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDeleteStaff = async () => {
+    if (!selectedStaff) return;
+
+    setIsSubmitting(true);
+    try {
+      const token = localStorage.getItem('bearer_token');
+      const response = await fetch(`/api/admin/staff/${selectedStaff.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        toast.success(language === 'ar' ? 'تم حذف الموظف بنجاح' : 'Staff deleted successfully');
+        setIsDeleteDialogOpen(false);
+        setSelectedStaff(null);
+        fetchStaff();
+      } else {
+        toast.error(result.error || (language === 'ar' ? 'فشل في حذف الموظف' : 'Failed to delete staff'));
+      }
+    } catch (error) {
+      console.error('Error deleting staff:', error);
+      toast.error(language === 'ar' ? 'حدث خطأ' : 'An error occurred');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const openEditDialog = (member: Staff) => {
+    setSelectedStaff(member);
+    setEditStaff({
+      fullName: member.fullName,
+      phone: member.phone || '',
+      role: member.role,
+      permissions: member.permissions || [],
+      status: member.status,
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  const openPasswordDialog = (member: Staff) => {
+    setSelectedStaff(member);
+    setNewPassword('');
+    setIsPasswordDialogOpen(true);
+  };
+
+  const openDeleteDialog = (member: Staff) => {
+    setSelectedStaff(member);
+    setIsDeleteDialogOpen(true);
   };
 
   const filteredStaff = staff.filter(member =>
@@ -145,8 +284,7 @@ export default function StaffPage() {
   const getRoleLabel = (role: string) => {
     const roles: Record<string, { ar: string; en: string }> = {
       'doctor': { ar: 'طبيب', en: 'Doctor' },
-      'nutritionist': { ar: 'أخصائي تغذية', en: 'Nutritionist' },
-      'assistant': { ar: 'مساعد', en: 'Assistant' },
+      'staff': { ar: 'موظف', en: 'Staff' },
       'admin': { ar: 'مدير', en: 'Admin' },
     };
     return language === 'ar' ? roles[role]?.ar : roles[role]?.en || role;
@@ -156,9 +294,7 @@ export default function StaffPage() {
     switch (role) {
       case 'doctor':
         return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
-      case 'nutritionist':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
-      case 'assistant':
+      case 'staff':
         return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
       case 'admin':
         return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
@@ -176,13 +312,22 @@ export default function StaffPage() {
     { value: 'view_patients', label: language === 'ar' ? 'عرض المرضى' : 'View Patients' },
   ];
 
-  const togglePermission = (permission: string) => {
-    setNewStaff(prev => ({
-      ...prev,
-      permissions: prev.permissions.includes(permission)
-        ? prev.permissions.filter(p => p !== permission)
-        : [...prev.permissions, permission]
-    }));
+  const togglePermission = (permission: string, isEdit = false) => {
+    if (isEdit) {
+      setEditStaff(prev => ({
+        ...prev,
+        permissions: prev.permissions.includes(permission)
+          ? prev.permissions.filter(p => p !== permission)
+          : [...prev.permissions, permission]
+      }));
+    } else {
+      setNewStaff(prev => ({
+        ...prev,
+        permissions: prev.permissions.includes(permission)
+          ? prev.permissions.filter(p => p !== permission)
+          : [...prev.permissions, permission]
+      }));
+    }
   };
 
   return (
@@ -245,8 +390,7 @@ export default function StaffPage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="doctor">{language === 'ar' ? 'طبيب' : 'Doctor'}</SelectItem>
-                      <SelectItem value="nutritionist">{language === 'ar' ? 'أخصائي تغذية' : 'Nutritionist'}</SelectItem>
-                      <SelectItem value="assistant">{language === 'ar' ? 'مساعد' : 'Assistant'}</SelectItem>
+                      <SelectItem value="staff">{language === 'ar' ? 'موظف' : 'Staff'}</SelectItem>
                       <SelectItem value="admin">{language === 'ar' ? 'مدير' : 'Admin'}</SelectItem>
                     </SelectContent>
                   </Select>
@@ -263,7 +407,7 @@ export default function StaffPage() {
                       <input
                         type="checkbox"
                         checked={newStaff.permissions.includes(permission.value)}
-                        onChange={() => togglePermission(permission.value)}
+                        onChange={() => togglePermission(permission.value, false)}
                         className="w-4 h-4 rounded border-gray-300"
                       />
                       <span className="text-sm">{permission.label}</span>
@@ -292,6 +436,155 @@ export default function StaffPage() {
         </Dialog>
       </div>
 
+      {/* Edit Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              {language === 'ar' ? 'تعديل بيانات الموظف' : 'Edit Staff Member'}
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleEditStaff} className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>{language === 'ar' ? 'الاسم الكامل' : 'Full Name'} *</Label>
+                <Input
+                  value={editStaff.fullName}
+                  onChange={(e) => setEditStaff({...editStaff, fullName: e.target.value})}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{language === 'ar' ? 'رقم الهاتف' : 'Phone'}</Label>
+                <Input
+                  value={editStaff.phone}
+                  onChange={(e) => setEditStaff({...editStaff, phone: e.target.value})}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{language === 'ar' ? 'الدور الوظيفي' : 'Role'} *</Label>
+                <Select value={editStaff.role} onValueChange={(value) => setEditStaff({...editStaff, role: value})}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="doctor">{language === 'ar' ? 'طبيب' : 'Doctor'}</SelectItem>
+                    <SelectItem value="staff">{language === 'ar' ? 'موظف' : 'Staff'}</SelectItem>
+                    <SelectItem value="admin">{language === 'ar' ? 'مدير' : 'Admin'}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>{language === 'ar' ? 'الحالة' : 'Status'} *</Label>
+                <Select value={editStaff.status} onValueChange={(value) => setEditStaff({...editStaff, status: value})}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="active">{language === 'ar' ? 'نشط' : 'Active'}</SelectItem>
+                    <SelectItem value="inactive">{language === 'ar' ? 'غير نشط' : 'Inactive'}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2">
+                <Shield className="w-4 h-4" />
+                {language === 'ar' ? 'الصلاحيات' : 'Permissions'}
+              </Label>
+              <div className="grid md:grid-cols-2 gap-3 p-4 bg-muted rounded-lg">
+                {availablePermissions.map((permission) => (
+                  <label key={permission.value} className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editStaff.permissions.includes(permission.value)}
+                      onChange={() => togglePermission(permission.value, true)}
+                      className="w-4 h-4 rounded border-gray-300"
+                    />
+                    <span className="text-sm">{permission.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Button type="submit" disabled={isSubmitting} className="flex-1 bg-gradient-to-r from-primary to-secondary">
+                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Edit className="w-4 h-4 mr-2" />}
+                {language === 'ar' ? 'حفظ التغييرات' : 'Save Changes'}
+              </Button>
+              <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+                {language === 'ar' ? 'إلغاء' : 'Cancel'}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Password Dialog */}
+      <Dialog open={isPasswordDialogOpen} onOpenChange={setIsPasswordDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              {language === 'ar' ? 'تغيير كلمة المرور' : 'Change Password'}
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleChangePassword} className="space-y-4">
+            <div className="space-y-2">
+              <Label>{language === 'ar' ? 'كلمة المرور الجديدة' : 'New Password'} *</Label>
+              <Input
+                type="text"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder={language === 'ar' ? 'أدخل كلمة المرور الجديدة' : 'Enter new password'}
+                required
+                minLength={6}
+                autoComplete="off"
+              />
+              <p className="text-sm text-muted-foreground">
+                {language === 'ar' ? 'يجب أن تكون 6 أحرف على الأقل' : 'Must be at least 6 characters'}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button type="submit" disabled={isSubmitting} className="flex-1 bg-gradient-to-r from-primary to-secondary">
+                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Key className="w-4 h-4 mr-2" />}
+                {language === 'ar' ? 'تغيير كلمة المرور' : 'Change Password'}
+              </Button>
+              <Button type="button" variant="outline" onClick={() => setIsPasswordDialogOpen(false)}>
+                {language === 'ar' ? 'إلغاء' : 'Cancel'}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {language === 'ar' ? 'تأكيد الحذف' : 'Confirm Deletion'}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {language === 'ar'
+                ? `هل أنت متأكد من حذف الموظف "${selectedStaff?.fullName}"؟ هذا الإجراء لا يمكن التراجع عنه.`
+                : `Are you sure you want to delete staff member "${selectedStaff?.fullName}"? This action cannot be undone.`}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              {language === 'ar' ? 'إلغاء' : 'Cancel'}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteStaff}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Trash2 className="w-4 h-4 mr-2" />}
+              {language === 'ar' ? 'حذف' : 'Delete'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {/* Filters */}
       <Card>
         <CardContent className="pt-6">
@@ -317,8 +610,7 @@ export default function StaffPage() {
                 <SelectContent>
                   <SelectItem value="all">{language === 'ar' ? 'الكل' : 'All'}</SelectItem>
                   <SelectItem value="doctor">{language === 'ar' ? 'طبيب' : 'Doctor'}</SelectItem>
-                  <SelectItem value="nutritionist">{language === 'ar' ? 'أخصائي تغذية' : 'Nutritionist'}</SelectItem>
-                  <SelectItem value="assistant">{language === 'ar' ? 'مساعد' : 'Assistant'}</SelectItem>
+                  <SelectItem value="staff">{language === 'ar' ? 'موظف' : 'Staff'}</SelectItem>
                   <SelectItem value="admin">{language === 'ar' ? 'مدير' : 'Admin'}</SelectItem>
                 </SelectContent>
               </Select>
@@ -389,7 +681,7 @@ export default function StaffPage() {
                             </div>
                           </div>
                         </div>
-                        <div>
+                        <div className="flex items-center gap-2">
                           <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                             member.status === 'active'
                               ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
@@ -397,6 +689,30 @@ export default function StaffPage() {
                           }`}>
                             {member.status === 'active' ? (language === 'ar' ? 'نشط' : 'Active') : (language === 'ar' ? 'غير نشط' : 'Inactive')}
                           </span>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm">
+                                <MoreVertical className="w-4 h-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => openEditDialog(member)}>
+                                <Edit className="w-4 h-4 mr-2" />
+                                {language === 'ar' ? 'تعديل' : 'Edit'}
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => openPasswordDialog(member)}>
+                                <Key className="w-4 h-4 mr-2" />
+                                {language === 'ar' ? 'تغيير كلمة المرور' : 'Change Password'}
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => openDeleteDialog(member)}
+                                className="text-destructive focus:text-destructive"
+                              >
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                {language === 'ar' ? 'حذف' : 'Delete'}
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </div>
                       </div>
                     </CardContent>
