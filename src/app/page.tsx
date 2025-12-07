@@ -173,43 +173,40 @@ export default function Home() {
               <p className="text-lg text-muted-foreground mb-8">
                 {t('hero.description')}
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col gap-4">
+                {/* Primary Action - Book Now */}
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Link href="/booking">
-                    <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground">
+                  <Link href="/booking" className="block">
+                    <Button size="lg" className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground">
                       {t('hero.cta')}
                       <ArrowRight className={`w-5 h-5 ${language === 'ar' ? 'mr-2 rotate-180' : 'ml-2'}`} />
                     </Button>
                   </Link>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="lg" variant="outline" className="border-2 border-primary">
+
+                {/* Login Options - Separate Buttons */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Link href="/patient-login" className="block">
+                      <Button size="lg" variant="outline" className="w-full border-2 border-primary/50 hover:border-primary hover:bg-primary/5">
                         <FileText className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
-                        {language === 'ar' ? 'تسجيل الدخول' : 'Login'}
+                        <span className="text-sm">
+                          {language === 'ar' ? 'ملفي الطبي' : 'Medical Record'}
+                        </span>
                       </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align={language === 'ar' ? 'start' : 'end'} className="w-56">
-                      <DropdownMenuLabel>
-                        {language === 'ar' ? 'اختر نوع الحساب' : 'Choose Account Type'}
-                      </DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem asChild>
-                        <Link href="/patient-login" className="cursor-pointer">
-                          <FileText className={`w-4 h-4 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
-                          {language === 'ar' ? 'ملفي الطبي (مرضى)' : 'My Medical Record (Patients)'}
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href="/staff-login" className="cursor-pointer">
-                          <ShieldCheck className={`w-4 h-4 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
-                          {language === 'ar' ? 'لوحة الإدارة (موظفين/أطباء)' : 'Admin Panel (Staff/Doctors)'}
-                        </Link>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </motion.div>
+                    </Link>
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Link href="/staff-login" className="block">
+                      <Button size="lg" variant="outline" className="w-full border-2 border-secondary/50 hover:border-secondary hover:bg-secondary/5">
+                        <ShieldCheck className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                        <span className="text-sm">
+                          {language === 'ar' ? 'لوحة الإدارة' : 'Admin Panel'}
+                        </span>
+                      </Button>
+                    </Link>
+                  </motion.div>
+                </div>
               </div>
             </motion.div>
 
