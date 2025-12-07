@@ -34,7 +34,7 @@ export default function UsersManagementPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingPassword, setEditingPassword] = useState<{ id: string; name: string } | null>(null);
+  const [editingPassword, setEditingPassword] = useState<{ id: number; userId: string; name: string } | null>(null);
   const [newPassword, setNewPassword] = useState('');
   
   const [formData, setFormData] = useState({
@@ -86,13 +86,13 @@ export default function UsersManagementPage() {
 
   const fetchStaff = async () => {
     try {
-      const response = await fetch('/api/staff', {
+      const response = await fetch('/api/admin/staff', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('bearer_token')}`,
         },
       });
-      const data = await response.json();
-      setStaff(data);
+      const result = await response.json();
+      setStaff(result.data || []);
     } catch (error) {
       console.error('Error fetching staff:', error);
       toast.error(language === 'ar' ? 'فشل تحميل البيانات' : 'Failed to load data');
@@ -101,39 +101,27 @@ export default function UsersManagementPage() {
     }
   };
 
-  const generateRandomPassword = () => {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%';
-    let password = '';
-    for (let i = 0; i < 12; i++) {
-      password += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return password;
-  };
-
   const handleCreateStaff = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsCreating(true);
 
     try {
-      const password = generateRandomPassword();
-      
       const response = await fetch('/api/admin/staff', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('bearer_token')}`,
         },
-        body: JSON.stringify({
-          ...formData,
-          password,
-        }),
+        body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to create staff');
+        throw new Error(result.error || 'Failed to create staff');
       }
+
+      const password = result.data?.credentials?.password;
 
       toast.success(
         language === 'ar'
@@ -172,7 +160,7 @@ export default function UsersManagementPage() {
     }
 
     try {
-      const response = await fetch(`/api/admin/staff/${userId}`, {
+      const response = await fetch(`/api/admin/staff/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('bearer_token')}`,
@@ -191,20 +179,22 @@ export default function UsersManagementPage() {
     }
   };
 
-  const handleChangePassword = async (userId: string) => {
-    if (!newPassword || newPassword.length < 8) {
-      toast.error(language === 'ar' ? 'كلمة المرور يجب أن تكون 8 أحرف على الأقل' : 'Password must be at least 8 characters');
+  const handleChangePassword = async () => {
+    if (!editingPassword) return;
+
+    if (!newPassword || newPassword.length < 6) {
+      toast.error(language === 'ar' ? 'كلمة المرور يجب أن تكون 6 أحرف على الأقل' : 'Password must be at least 6 characters');
       return;
     }
 
     try {
-      const response = await fetch(`/api/admin/staff/${userId}/password`, {
+      const response = await fetch(`/api/admin/staff/${editingPassword.id}/password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('bearer_token')}`,
         },
-        body: JSON.stringify({ password: newPassword }),
+        body: JSON.stringify({ newPassword }),
       });
 
       if (!response.ok) {
@@ -465,12 +455,17 @@ export default function UsersManagementPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2 justify-center">
-                        <Dialog>
+                        <Dialog open={editingPassword?.id === member.id} onOpenChange={(open) => {
+                          if (!open) {
+                            setEditingPassword(null);
+                            setNewPassword('');
+                          }
+                        }}>
                           <DialogTrigger asChild>
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => setEditingPassword({ id: member.userId, name: member.fullName })}
+                              onClick={() => setEditingPassword({ id: member.id, userId: member.userId, name: member.fullName })}
                             >
                               <Key className="w-4 h-4" />
                             </Button>
@@ -495,7 +490,7 @@ export default function UsersManagementPage() {
                                 />
                               </div>
                               <Button
-                                onClick={() => handleChangePassword(member.userId)}
+                                onClick={handleChangePassword}
                                 className="w-full"
                               >
                                 {language === 'ar' ? 'حفظ' : 'Save'}
