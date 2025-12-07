@@ -25,8 +25,17 @@ import {
   MapPin,
   Phone,
   Mail,
-  FileText
+  FileText,
+  ShieldCheck
 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export default function Home() {
   const { t, language } = useLanguage();
@@ -174,12 +183,32 @@ export default function Home() {
                   </Link>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Link href="/patient-login">
-                    <Button size="lg" variant="outline" className="border-2 border-primary">
-                      <FileText className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
-                      {language === 'ar' ? 'ملفي الطبي' : 'My Medical Record'}
-                    </Button>
-                  </Link>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="lg" variant="outline" className="border-2 border-primary">
+                        <FileText className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                        {language === 'ar' ? 'تسجيل الدخول' : 'Login'}
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align={language === 'ar' ? 'start' : 'end'} className="w-56">
+                      <DropdownMenuLabel>
+                        {language === 'ar' ? 'اختر نوع الحساب' : 'Choose Account Type'}
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/patient-login" className="cursor-pointer">
+                          <FileText className={`w-4 h-4 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                          {language === 'ar' ? 'ملفي الطبي (مرضى)' : 'My Medical Record (Patients)'}
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/staff-login" className="cursor-pointer">
+                          <ShieldCheck className={`w-4 h-4 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                          {language === 'ar' ? 'لوحة الإدارة (موظفين/أطباء)' : 'Admin Panel (Staff/Doctors)'}
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </motion.div>
               </div>
             </motion.div>
