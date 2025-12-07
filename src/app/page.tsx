@@ -24,7 +24,8 @@ import {
   Star,
   MapPin,
   Phone,
-  Mail
+  Mail,
+  FileText
 } from 'lucide-react';
 
 export default function Home() {
@@ -173,9 +174,10 @@ export default function Home() {
                   </Link>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Link href="/about">
-                    <Button size="lg" variant="outline" className="border-2">
-                      {t('hero.learnMore')}
+                  <Link href="/patient-login">
+                    <Button size="lg" variant="outline" className="border-2 border-primary">
+                      <FileText className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                      {language === 'ar' ? 'ملفي الطبي' : 'My Medical Record'}
                     </Button>
                   </Link>
                 </motion.div>
