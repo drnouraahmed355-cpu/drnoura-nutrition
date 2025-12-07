@@ -11,6 +11,10 @@ export const user = sqliteTable("user", {
     .$defaultFn(() => false)
     .notNull(),
   image: text("image"),
+  role: text("role").notNull().default('patient'), // New field: admin, doctor, staff, patient
+  passwordNeedsChange: integer("password_needs_change", { mode: "boolean" })
+    .$defaultFn(() => false)
+    .notNull(), // New field
   createdAt: integer("created_at", { mode: "timestamp" })
     .$defaultFn(() => new Date())
     .notNull(),
