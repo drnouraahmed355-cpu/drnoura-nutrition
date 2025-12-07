@@ -136,11 +136,38 @@ export default function PatientsPage() {
         });
         fetchPatients();
       } else {
-        toast.error(result.error || (language === 'ar' ? 'فشل في إضافة المريض' : 'Failed to add patient'));
+        // Handle specific error codes
+        let errorMessage = '';
+        
+        if (result.code === 'DUPLICATE_NATIONAL_ID') {
+          errorMessage = language === 'ar' 
+            ? `الرقم القومي ${newPatient.nationalId} موجود بالفعل في النظام. الرجاء استخدام رقم قومي آخر.`
+            : `National ID ${newPatient.nationalId} already exists in the system. Please use a different National ID.`;
+        } else if (result.code === 'DUPLICATE_EMAIL') {
+          errorMessage = language === 'ar'
+            ? `البريد الإلكتروني ${newPatient.email} مسجل بالفعل. الرجاء استخدام بريد إلكتروني آخر.`
+            : `Email ${newPatient.email} is already registered. Please use a different email.`;
+        } else if (result.code === 'INVALID_NATIONAL_ID') {
+          errorMessage = language === 'ar'
+            ? 'الرقم القومي يجب أن يكون 14 رقماً بالضبط.'
+            : 'National ID must be exactly 14 digits.';
+        } else if (result.code === 'INVALID_EMAIL') {
+          errorMessage = language === 'ar'
+            ? 'صيغة البريد الإلكتروني غير صحيحة.'
+            : 'Invalid email format.';
+        } else if (result.code === 'MISSING_REQUIRED_FIELDS') {
+          errorMessage = language === 'ar'
+            ? 'الرجاء ملء جميع الحقول المطلوبة: الرقم القومي، الاسم الكامل، البريد الإلكتروني.'
+            : 'Please fill all required fields: National ID, Full Name, Email.';
+        } else {
+          errorMessage = result.error || (language === 'ar' ? 'فشل في إضافة المريض' : 'Failed to add patient');
+        }
+        
+        toast.error(errorMessage, { duration: 6000 });
       }
     } catch (error) {
       console.error('Error adding patient:', error);
-      toast.error(language === 'ar' ? 'حدث خطأ' : 'An error occurred');
+      toast.error(language === 'ar' ? 'حدث خطأ في الاتصال. الرجاء المحاولة مرة أخرى.' : 'Connection error. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
