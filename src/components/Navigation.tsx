@@ -6,8 +6,16 @@ import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useSession } from '@/lib/auth-client';
-import { Menu, X, Moon, Sun, Globe, User } from 'lucide-react';
+import { Menu, X, Moon, Sun, Globe, User, ShieldCheck, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navigation() {
@@ -119,18 +127,50 @@ export default function Navigation() {
                 </Link>
               </motion.div>
             ) : (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.05 }}
-                className="hidden md:block"
-              >
-                <Link href="/booking">
-                  <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground">
-                    {t('nav.bookNow')}
-                  </Button>
-                </Link>
-              </motion.div>
+              <>
+                {/* Login Dropdown for Desktop */}
+                <div className="hidden md:block">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="gap-2">
+                        <User className="w-4 h-4" />
+                        {language === 'ar' ? 'تسجيل الدخول' : 'Login'}
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align={language === 'ar' ? 'start' : 'end'} className="w-56">
+                      <DropdownMenuLabel>
+                        {language === 'ar' ? 'اختر نوع الحساب' : 'Choose Account Type'}
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/patient-login" className="cursor-pointer">
+                          <FileText className={`w-4 h-4 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                          {language === 'ar' ? 'ملفي الطبي (مرضى)' : 'My Medical Record (Patients)'}
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/staff-login" className="cursor-pointer">
+                          <ShieldCheck className={`w-4 h-4 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                          {language === 'ar' ? 'لوحة الإدارة (موظفين)' : 'Admin Panel (Staff)'}
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="hidden md:block"
+                >
+                  <Link href="/booking">
+                    <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground">
+                      {t('nav.bookNow')}
+                    </Button>
+                  </Link>
+                </motion.div>
+              </>
             )}
 
             <Button
@@ -172,11 +212,25 @@ export default function Navigation() {
                     </Button>
                   </Link>
                 ) : (
-                  <Link href="/booking" onClick={() => setIsOpen(false)}>
-                    <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground">
-                      {t('nav.bookNow')}
-                    </Button>
-                  </Link>
+                  <>
+                    <Link href="/patient-login" onClick={() => setIsOpen(false)}>
+                      <Button variant="outline" className="w-full gap-2 justify-start">
+                        <FileText className="w-4 h-4" />
+                        {language === 'ar' ? 'ملفي الطبي (مرضى)' : 'My Medical Record'}
+                      </Button>
+                    </Link>
+                    <Link href="/staff-login" onClick={() => setIsOpen(false)}>
+                      <Button variant="outline" className="w-full gap-2 justify-start">
+                        <ShieldCheck className="w-4 h-4" />
+                        {language === 'ar' ? 'لوحة الإدارة (موظفين)' : 'Admin Panel'}
+                      </Button>
+                    </Link>
+                    <Link href="/booking" onClick={() => setIsOpen(false)}>
+                      <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground">
+                        {t('nav.bookNow')}
+                      </Button>
+                    </Link>
+                  </>
                 )}
               </div>
             </motion.div>
