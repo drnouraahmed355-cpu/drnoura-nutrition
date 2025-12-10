@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useSession } from '@/lib/auth-client';
-import { Menu, X, Moon, Sun, Globe, User, ShieldCheck, FileText } from 'lucide-react';
+import { Menu, X, Moon, Sun, Globe, User, ShieldCheck, FileText, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -28,6 +28,7 @@ export default function Navigation() {
     { href: '/', label: t('nav.home') },
     { href: '/about', label: t('nav.about') },
     { href: '/services', label: t('nav.services') },
+    { href: '/bmi-calculator', label: language === 'ar' ? 'حاسبة BMI' : 'BMI Calculator' },
     { href: '/contact', label: t('nav.contact') },
   ];
 
