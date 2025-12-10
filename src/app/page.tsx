@@ -4,6 +4,7 @@ import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import WhatsAppButton from '@/components/WhatsAppButton';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -550,6 +551,7 @@ export default function Home() {
       </section>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 }

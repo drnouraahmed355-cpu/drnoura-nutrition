@@ -12,26 +12,29 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark'); // Default to dark
+  const [theme, setTheme] = useState<Theme>('dark');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
+    setMounted(true);
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') as Theme | null;
+      if (savedTheme) {
+        setTheme(savedTheme);
+        if (savedTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
       } else {
-        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
       }
-    } else {
-      // No saved preference, default to dark
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
     }
   }, []);
 
   const toggleTheme = () => {
+    if (typeof window === 'undefined') return;
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);

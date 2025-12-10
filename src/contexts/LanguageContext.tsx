@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type Language = 'en' | 'ar';
@@ -173,20 +175,26 @@ const translations: Record<Language, Record<string, string>> = {
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>('ar');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('language') as Language;
-    if (savedLang) {
-      setLanguage(savedLang);
+    setMounted(true);
+    if (typeof window !== 'undefined') {
+      const savedLang = localStorage.getItem('language') as Language;
+      if (savedLang) {
+        setLanguage(savedLang);
+      }
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('language', language);
-    document.documentElement.lang = language;
-    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
-    document.body.dir = language === 'ar' ? 'rtl' : 'ltr';
-  }, [language]);
+    if (mounted && typeof window !== 'undefined') {
+      localStorage.setItem('language', language);
+      document.documentElement.lang = language;
+      document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+      document.body.dir = language === 'ar' ? 'rtl' : 'ltr';
+    }
+  }, [language, mounted]);
 
   const t = (key: string): string => {
     return translations[language][key] || key;

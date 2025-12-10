@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
 import Providers from "@/components/Providers";
@@ -34,7 +33,6 @@ export default function RootLayout({
           {children}
           <FloatingContact />
         </Providers>
-        <VisualEditsMessenger />
       </body>
     </html>
   );
